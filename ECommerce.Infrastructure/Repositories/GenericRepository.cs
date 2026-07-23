@@ -34,6 +34,18 @@ namespace ECommerce.Infrastructure.Repositories
             await _dbSet.AddAsync(entity);
         }
 
+        public async Task<IReadOnlyList<T>> GetAllWithIncludesAsync(params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.ToListAsync();
+        }
+
         public void Update(T entity)
         {
             _dbSet.Update(entity);
