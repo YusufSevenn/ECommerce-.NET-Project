@@ -5,6 +5,7 @@ using ECommerce.Core.Interfaces;
 using ECommerce.Infrastructure.Repositories;
 using ECommerce.Application.Services;
 using ECommerce.Application.Mapping;
+using ECommerce.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -21,6 +22,8 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddAutoMapper(config =>
 {

@@ -33,7 +33,7 @@ namespace ECommerce.API.Controllers
         {
             var categoryDto = await _categoryService.GetCategoryByIdAsync(id);
 
-            if (categoryDto == null) return NotFound("Ürün bulunamadı.");
+            if (categoryDto == null) return NotFound("Kategori bulunamadı.");
 
             return Ok(categoryDto);
         }

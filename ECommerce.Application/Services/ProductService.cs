@@ -53,5 +53,12 @@ namespace ECommerce.Application.Services
 
             return productDto;
         }
+
+        public async Task<List<ProductDto>> GetAllProductsAsync()
+        {
+            var products = await _unitOfWork.Products.GetAllWithIncludesAsync(p => p.Category);
+
+            return _mapper.Map<List<ProductDto>>(products);
+        }
     }
 }

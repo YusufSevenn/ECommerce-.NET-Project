@@ -21,7 +21,7 @@ namespace ECommerce.Application.Services
         {
             if (string.IsNullOrWhiteSpace(categoryCreateDto.Name))
             {
-                throw new ArgumentException("Ürün ismi boş bırakılamaz.");
+                throw new ArgumentException("Kategori ismi boş bırakılamaz.");
             }
 
             //DTO -> Entity dönüşümü

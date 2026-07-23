@@ -6,5 +6,6 @@ namespace ECommerce.Core.Interfaces
     {
         Task<bool> CreateProductAsync(ProductCreateDto productCreateDto);
         Task<ProductDto> GetProductByIdAsync(int id);
+        Task<List<ProductDto>> GetAllProductsAsync();
     }
 }
