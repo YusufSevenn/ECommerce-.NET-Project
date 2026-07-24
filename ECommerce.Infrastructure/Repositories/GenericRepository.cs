@@ -46,6 +46,18 @@ namespace ECommerce.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
+        public async Task<T?> GetSingleWithIncludesAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(predicate);
+        }
+
         public void Update(T entity)
         {
             _dbSet.Update(entity);

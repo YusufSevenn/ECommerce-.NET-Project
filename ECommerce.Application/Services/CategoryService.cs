@@ -17,7 +17,7 @@ namespace ECommerce.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateCategoryAsync(CategoryCreateDto categoryCreateDto)
+        public async Task<CategoryDto> CreateCategoryAsync(CategoryCreateDto categoryCreateDto)
         {
             if (string.IsNullOrWhiteSpace(categoryCreateDto.Name))
             {
@@ -30,7 +30,12 @@ namespace ECommerce.Application.Services
             await _unitOfWork.Categories.AddAsync(category);
             var result = await _unitOfWork.SaveAsync();
 
-            return result > 0;
+            if (result > 0)
+            {
+                return _mapper.Map<CategoryDto>(category);
+            }
+
+            return null;
         }
 
         public async Task<CategoryDto> GetCategoryByIdAsync(int id)

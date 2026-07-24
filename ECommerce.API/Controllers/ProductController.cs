@@ -18,12 +18,12 @@ namespace ECommerce.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProductCreateDto productCreateDto)
         {
-            var isSuccess = await _productService.CreateProductAsync(productCreateDto);
+            var createdProduct = await _productService.CreateProductAsync(productCreateDto);
 
 
-            if (isSuccess)
+            if (createdProduct != null)
             {
-                return Ok("Ürün başarıyla eklendi.");
+                return Ok(createdProduct);
             }
             return BadRequest("Ürün eklenirken bir hata oluştu.");
         }

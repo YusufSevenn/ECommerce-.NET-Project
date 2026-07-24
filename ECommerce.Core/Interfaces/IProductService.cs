@@ -4,7 +4,7 @@ namespace ECommerce.Core.Interfaces
 {
     public interface IProductService
     {
-        Task<bool> CreateProductAsync(ProductCreateDto productCreateDto);
+        Task<ProductDto> CreateProductAsync(ProductCreateDto productCreateDto);
         Task<ProductDto> GetProductByIdAsync(int id);
         Task<List<ProductDto>> GetAllProductsAsync();
     }

@@ -19,11 +19,11 @@ namespace ECommerce.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CategoryCreateDto categoryCreateDto)
         {
-            var isSuccess = await _categoryService.CreateCategoryAsync(categoryCreateDto);
+            var createdCategory = await _categoryService.CreateCategoryAsync(categoryCreateDto);
 
-            if (isSuccess)
+            if (createdCategory != null)
             {
-                return Ok("Kategori başarıyla eklendi.");
+                return Ok(createdCategory);
             }
             return BadRequest("Kategori eklenirken bir hata oluştu.");
         }

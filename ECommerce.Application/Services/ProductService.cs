@@ -17,7 +17,7 @@ namespace ECommerce.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateProductAsync(ProductCreateDto productCreateDto)
+        public async Task<ProductDto> CreateProductAsync(ProductCreateDto productCreateDto)
         {
             //İŞ KURALI 1: DTO'dan gelen veriyi kontrol ediyoruz.
             if (string.IsNullOrWhiteSpace(productCreateDto.Name))
@@ -37,12 +37,21 @@ namespace ECommerce.Application.Services
             await _unitOfWork.Products.AddAsync(product);
             var result = await _unitOfWork.SaveAsync();
 
-            return result > 0;
+            if (result > 0)
+            {
+                var createdProduct = await _unitOfWork.Products.GetSingleWithIncludesAsync(
+                    p => p.Id == product.Id,
+                    p => p.Category
+                );
+                return _mapper.Map<ProductDto>(createdProduct);
+            }
+
+            return null;
         }
 
         public async Task<ProductDto> GetProductByIdAsync(int id)
         {
-            var product = await _unitOfWork.Products.GetByIdAsync(id);
+            var product = await _unitOfWork.Products.GetSingleWithIncludesAsync(p => p.Id == p.Id, p => p.Category);
             if (product == null)
             {
                 return null;

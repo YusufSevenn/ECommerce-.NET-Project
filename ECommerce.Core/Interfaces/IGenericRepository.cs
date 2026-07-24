@@ -8,6 +8,7 @@ namespace ECommerce.Core.Interfaces
         Task<IReadOnlyList<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);
         Task<IReadOnlyList<T>> GetAllWithIncludesAsync(params Expression<Func<T, object>>[] includes);
+        Task<T?> GetSingleWithIncludesAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
         void Update(T entitiy);
         void Delete(T entity);
     }
