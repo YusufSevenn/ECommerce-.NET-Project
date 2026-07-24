@@ -6,6 +6,8 @@ using ECommerce.Infrastructure.Repositories;
 using ECommerce.Application.Services;
 using ECommerce.Application.Mapping;
 using ECommerce.Interfaces;
+using FluentValidation;
+using ECommerce.Applicaiton.Validations;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -29,6 +31,8 @@ builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<MapProfile>();
 });
+
+builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateDtoValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
