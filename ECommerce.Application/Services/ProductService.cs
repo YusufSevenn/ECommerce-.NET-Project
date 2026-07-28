@@ -19,17 +19,6 @@ namespace ECommerce.Application.Services
 
         public async Task<ProductDto> CreateProductAsync(ProductCreateDto productCreateDto)
         {
-            //İŞ KURALI 1: DTO'dan gelen veriyi kontrol ediyoruz.
-            if (string.IsNullOrWhiteSpace(productCreateDto.Name))
-            {
-                throw new ArgumentException("Ürün ismi boş bırakılamaz.");
-            }
-
-            if (productCreateDto.Price <= 0)
-            {
-                throw new ArgumentException("Ürün fiyatı 0'dan büyük olmalıdır.");
-            }
-
             // 1. DÖNÜŞÜM : DTO -> Entity
             var product = _mapper.Map<Product>(productCreateDto);
 
@@ -37,7 +26,6 @@ namespace ECommerce.Application.Services
             await _unitOfWork.Products.AddAsync(product);
             var result = await _unitOfWork.SaveAsync();
 
-            if (result > 0)
             {
                 var createdProduct = await _unitOfWork.Products.GetSingleWithIncludesAsync(
                     p => p.Id == product.Id,

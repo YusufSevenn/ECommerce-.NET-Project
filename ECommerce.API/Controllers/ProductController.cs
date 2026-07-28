@@ -41,7 +41,10 @@ namespace ECommerce.API.Controllers
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
+
             return Ok(products);
+
+
         }
     }
 }
