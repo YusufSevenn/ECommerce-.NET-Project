@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ECommerce.Infrastructure.Contexts;
-using ECommerce.Core.Entities;
 using FluentValidation.AspNetCore;
 using ECommerce.Core.Interfaces;
 using ECommerce.Infrastructure.Repositories;
@@ -12,8 +11,19 @@ using ECommerce.Applicaiton.Validations;
 using ECommerce.API.Filters;
 using Microsoft.AspNetCore.Mvc;
 using ECommerce.API.Middlewares;
+using Serilog;
+
+//Serilog Yapılandırması
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) //Her gün için yeni bir log dosyası oluşturur.
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// .NET'in varsayılan loglamasını Serilog ile değiştiriyoruz
+builder.Host.UseSerilog();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

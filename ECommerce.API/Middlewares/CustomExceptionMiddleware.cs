@@ -1,5 +1,8 @@
 using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.Logging; //Ilogger için gerekli
 
 namespace ECommerce.API.Middlewares
 {
@@ -22,7 +25,8 @@ namespace ECommerce.API.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
+                //Hatayı Serilog ile terminale ve logs dosyasına yazıyoruz
+                _logger.LogError(ex, "Sistemde beklenmeyen bir hata oluştu! Request Path: {Path}", context.Request.Path);
 
                 await HandleExceptionAsync(context, ex);
             }
