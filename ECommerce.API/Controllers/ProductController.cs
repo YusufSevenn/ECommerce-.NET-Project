@@ -1,6 +1,7 @@
 using ECommerce.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ECommerce.Core.DTOs;
+using ECommerce.Core.RequestParameters;
 
 namespace ECommerce.API.Controllers
 {
@@ -43,8 +44,16 @@ namespace ECommerce.API.Controllers
             var products = await _productService.GetAllProductsAsync();
 
             return Ok(products);
+        }
 
+        [HttpGet("paginated")]
+        public async Task<IActionResult> GetPaginatedProducts([FromQuery] PaginationParams paginationParams)
+        {
+            // Gelen parametreleri doğrudan servisimize iletiyoruz
+            var result = await _productService.GetPaginatedProductsAsync(paginationParams);
 
+            //İşlenmiş sayfalama sonucunu 200 OK ile dönüyoruz
+            return Ok(result);
         }
     }
 }

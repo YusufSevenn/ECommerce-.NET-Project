@@ -2,6 +2,8 @@ using ECommerce.Core.Entities;
 using ECommerce.Core.Interfaces;
 using AutoMapper;
 using ECommerce.Core.DTOs;
+using ECommerce.Core.Wrappersz;
+using ECommerce.Core.RequestParameters;
 
 namespace ECommerce.Application.Services
 {
@@ -56,6 +58,23 @@ namespace ECommerce.Application.Services
             var products = await _unitOfWork.Products.GetAllWithIncludesAsync(p => p.Category);
 
             return _mapper.Map<List<ProductDto>>(products);
+        }
+        public async Task<PaginatedResult<ProductDto>> GetPaginatedProductsAsync(PaginationParams paginationParams)
+        {
+            // Repository'den sayfalanmış ham entity verilerini al
+            var pageProducts = await _unitOfWork.Products.GetPaginatedAsync(paginationParams);
+
+            // Gelen listedeki entity'leri Dto'ya çevir
+            var productDtos = _mapper.Map<IReadOnlyList<ProductDto>>(pageProducts.Items);
+
+            // DTO listesiyle beraber, sayfalama meta verilerini koruyarak yeni bir sonuç oluştur ve dön
+            return new PaginatedResult<ProductDto>(
+                productDtos,
+                pageProducts.TotalCount,
+                pageProducts.PageNumber,
+                pageProducts.PageSize
+            );
+
         }
     }
 }

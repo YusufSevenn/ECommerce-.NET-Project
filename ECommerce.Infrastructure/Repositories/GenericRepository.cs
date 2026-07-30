@@ -1,4 +1,6 @@
 using ECommerce.Core.Interfaces;
+using ECommerce.Core.RequestParameters;
+using ECommerce.Core.Wrappersz;
 using ECommerce.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -66,6 +68,21 @@ namespace ECommerce.Infrastructure.Repositories
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
+        }
+
+        public async Task<PaginatedResult<T>> GetPaginatedAsync(PaginationParams paginationParams)
+        {
+            // Veritabanındaki toplam kayıt sayısını buluyoruz (Toplam sayfa hesabı için gerekli)
+            var totalCount = await _context.Set<T>().CountAsync();
+
+            // Skip ve Take ile sadece istenen sayfanın verilerini çekiyoruz
+            var items = await _context.Set<T>()
+                .Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+                .Take(paginationParams.PageSize)
+                .ToListAsync();
+
+            // Elde ettiğimiz verileri Core katmanında yazdığımız sarmalayıcı sınıfa koyup döndürüyoruz  
+            return new PaginatedResult<T>(items, totalCount, paginationParams.PageNumber, paginationParams.PageSize);
         }
     }
 }
