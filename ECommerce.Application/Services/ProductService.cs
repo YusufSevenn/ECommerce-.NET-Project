@@ -1,8 +1,9 @@
 using ECommerce.Core.Entities;
 using ECommerce.Core.Interfaces;
+using ECommerce.Application.AInterfaces;
 using AutoMapper;
-using ECommerce.Core.DTOs;
-using ECommerce.Core.Wrappersz;
+using ECommerce.Application.DTOs;
+using ECommerce.Core.Wrappers;
 using ECommerce.Core.RequestParameters;
 
 namespace ECommerce.Application.Services

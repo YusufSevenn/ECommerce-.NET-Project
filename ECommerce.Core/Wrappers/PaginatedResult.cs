@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ECommerce.Core.Wrappersz
+namespace ECommerce.Core.Wrappers
 {
     public class PaginatedResult<T> where T : class
     {

@@ -1,8 +1,8 @@
-using ECommerce.Core.DTOs;
+using ECommerce.Application.DTOs;
 using ECommerce.Core.RequestParameters;
-using ECommerce.Core.Wrappersz;
+using ECommerce.Core.Wrappers;
 
-namespace ECommerce.Core.Interfaces
+namespace ECommerce.Application.AInterfaces
 {
     public interface IProductService
     {

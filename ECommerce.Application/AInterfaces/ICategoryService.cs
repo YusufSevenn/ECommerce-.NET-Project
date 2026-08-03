@@ -1,6 +1,6 @@
-using ECommerce.Core.DTOs;
+using ECommerce.Application.DTOs;
 
-namespace ECommerce.Interfaces
+namespace ECommerce.Application.AInterfaces
 {
     public interface ICategoryService
     {

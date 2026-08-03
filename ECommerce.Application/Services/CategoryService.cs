@@ -1,8 +1,8 @@
 using AutoMapper;
-using ECommerce.Core.DTOs;
+using ECommerce.Application.DTOs;
 using ECommerce.Core.Entities;
 using ECommerce.Core.Interfaces;
-using ECommerce.Interfaces;
+using ECommerce.Application.AInterfaces;
 
 namespace ECommerce.Application.Services
 {

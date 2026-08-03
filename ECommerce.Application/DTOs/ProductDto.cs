@@ -1,4 +1,4 @@
-namespace ECommerce.Core.DTOs
+namespace ECommerce.Application.DTOs
 {
     public class ProductDto
     {
