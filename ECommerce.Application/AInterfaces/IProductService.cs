@@ -1,6 +1,6 @@
 using ECommerce.Application.DTOs;
-using ECommerce.Core.RequestParameters;
-using ECommerce.Core.Wrappers;
+using ECommerce.Application.RequestParameters;
+using ECommerce.Application.Wrappers;
 
 namespace ECommerce.Application.AInterfaces
 {

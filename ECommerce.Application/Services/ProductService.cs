@@ -3,8 +3,8 @@ using ECommerce.Core.Interfaces;
 using ECommerce.Application.AInterfaces;
 using AutoMapper;
 using ECommerce.Application.DTOs;
-using ECommerce.Core.Wrappers;
-using ECommerce.Core.RequestParameters;
+using ECommerce.Application.Wrappers;
+using ECommerce.Application.RequestParameters;
 
 namespace ECommerce.Application.Services
 {
@@ -62,18 +62,19 @@ namespace ECommerce.Application.Services
         }
         public async Task<PaginatedResult<ProductDto>> GetPaginatedProductsAsync(PaginationParams paginationParams)
         {
-            // Repository'den sayfalanmış ham entity verilerini al
-            var pageProducts = await _unitOfWork.Products.GetPaginatedAsync(paginationParams);
+            // PaginationParams içindeki ilkel(primitive) değerleri ayıklayıp Repository'e gönderiyoruz.
+            //Dönen sonucu Tuple (Items, TotalCount) olarak karşılıyoruz.
+            var (items, totalCount) = await _unitOfWork.Products.GetPaginatedAsync(paginationParams.PageNumber, paginationParams.PageSize);
 
             // Gelen listedeki entity'leri Dto'ya çevir
-            var productDtos = _mapper.Map<IReadOnlyList<ProductDto>>(pageProducts.Items);
+            var productDtos = _mapper.Map<IReadOnlyList<ProductDto>>(items);
 
             // DTO listesiyle beraber, sayfalama meta verilerini koruyarak yeni bir sonuç oluştur ve dön
             return new PaginatedResult<ProductDto>(
                 productDtos,
-                pageProducts.TotalCount,
-                pageProducts.PageNumber,
-                pageProducts.PageSize
+                totalCount,
+                paginationParams.PageNumber,
+                paginationParams.PageSize
             );
 
         }

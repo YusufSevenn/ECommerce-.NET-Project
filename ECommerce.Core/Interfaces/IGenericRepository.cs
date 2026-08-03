@@ -1,6 +1,4 @@
 using System.Linq.Expressions;
-using ECommerce.Core.RequestParameters;
-using ECommerce.Core.Wrappersz;
 namespace ECommerce.Core.Interfaces
 {
     public interface IGenericRepository<T> where T : class
@@ -14,6 +12,6 @@ namespace ECommerce.Core.Interfaces
         void Update(T entitiy);
         void Delete(T entity);
 
-        Task<PaginatedResult<T>> GetPaginatedAsync(PaginationParams paginationParams);
+        Task<(IReadOnlyList<T> Items, int TotalCount)> GetPaginatedAsync(int pageNumber, int pageSize);
     }
 }

@@ -1,4 +1,4 @@
-namespace ECommerce.Core.RequestParameters
+namespace ECommerce.Application.RequestParameters
 {
     public class PaginationParams
     {
