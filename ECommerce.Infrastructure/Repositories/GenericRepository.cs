@@ -1,6 +1,6 @@
 using ECommerce.Core.Interfaces;
-using ECommerce.Core.RequestParameters;
-using ECommerce.Core.Wrappersz;
+using ECommerce.Application.RequestParameters;
+using ECommerce.Application.Wrappers;
 using ECommerce.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -70,19 +70,19 @@ namespace ECommerce.Infrastructure.Repositories
             _dbSet.Remove(entity);
         }
 
-        public async Task<PaginatedResult<T>> GetPaginatedAsync(PaginationParams paginationParams)
+        public async Task<(IReadOnlyList<T> Items, int TotalCount)> GetPaginatedAsync(int pageNumber, int pageSize)
         {
-            // Veritabanındaki toplam kayıt sayısını buluyoruz (Toplam sayfa hesabı için gerekli)
+            // İlgili tablodaki toplam kayıt sayısını hesapla
             var totalCount = await _context.Set<T>().CountAsync();
 
-            // Skip ve Take ile sadece istenen sayfanın verilerini çekiyoruz
+            // İstenen sayfa ve boyuta göre verileri filtrele
             var items = await _context.Set<T>()
-                .Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
-                .Take(paginationParams.PageSize)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
-            // Elde ettiğimiz verileri Core katmanında yazdığımız sarmalayıcı sınıfa koyup döndürüyoruz  
-            return new PaginatedResult<T>(items, totalCount, paginationParams.PageNumber, paginationParams.PageSize);
+            // Hem verileri hem de toplam sayıyı Tuple olarak geri dön
+            return (items, totalCount);
         }
     }
 }
